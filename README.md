@@ -5,6 +5,5 @@
 - :octocat: vs code
 - 🐘postgreSQL
 
----
 ## 튜토리얼
 https://www.giacomodebidda.com/posts/mvc-pattern-in-python-introduction-and-basicmodel/
