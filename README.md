@@ -2,5 +2,5 @@
 
 ## 환경
 - :snake:python 3.5
-- vs code
+- :octocat: vs code
 - 🐘postgreSQL
