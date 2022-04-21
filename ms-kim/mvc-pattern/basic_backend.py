@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import mvc_exception as mvc_exc
+import mvc_exceptions as mvc_exc
 
 items = list()
 
@@ -10,7 +10,7 @@ def create_items(app_items):
 def create_item(title, writer, painter, publisher, position):
     global items
 
-    results = list(filter(lambda x: x['title']== tile, items))
+    results = list(filter(lambda x: x['title']== title, items))
     if results:
         raise mvc_exc.ItemAlreadyStored('"{}" already stored!'.format(title))
     else:
@@ -28,10 +28,9 @@ def read_items():
 
 def read_item(title):
     global items
-
-    results = list(filter(lambda x: x['title']== tile, items))
+    results = list(filter(lambda x: x['title']== title, items))
     if results:
-        return myitems[0]
+        return results[0]
     else:
         raise mvc_exc.ItemNotStored('Can\'t read "{}" because it\'s not stored'.format(title))
 
