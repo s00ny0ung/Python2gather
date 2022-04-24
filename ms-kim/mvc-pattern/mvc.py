@@ -165,7 +165,7 @@ def main():
   c = Controller(Model(myitems), View())
   c.show_items()
   c.show_items(bullet_points=True)
-#   c.show_item('우리는 안녕')
+  c.show_item('우리는 안녕')
   c.insert_item(title = '우리는 안녕', writer = '박준', painter='김한나', publisher='난다요', position = 4)
   c.show_item('우리는 안녕')
   c.update_item(title = '우리는 안녕', writer = '박준', painter='김한나', publisher='난다요', position = 3)
