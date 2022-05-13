@@ -94,10 +94,10 @@ def select_one(conn, item_name, table_name):
     cur =  conn.cursor()
     table_name = scrub(table_name)
     item_name = scrub(item_name)
-    sql = 'SELECT * FROM {} WHERE title="{}"'.format(table_name, item_name)
-    c = cur.execute(sql)
+    sql = "SELECT * FROM {} WHERE title='{}'".format(table_name, item_name)
+    cur.execute(sql)
     # conn.commit()
-    result = c.fetchone()
+    result = cur.fetchone()
     if result is not None:
         return tuple_to_dict(result)
     else:
@@ -111,8 +111,8 @@ def select_all(conn, table_name):
     cur =  conn.cursor()
     table_name = scrub(table_name)
     sql = 'SELECT * FROM {}'.format(table_name)
-    c = cur.execute(sql)
-    results = c.fetchall()
+    cur.execute(sql)
+    results = cur.fetchall()
     return list(map(lambda x: tuple_to_dict(x), results))
 
 @connect
@@ -167,8 +167,8 @@ def main():
 
     # insert_many(conn, myitems, table_name='items')
     # insert_one(conn, '우리는안녕',  writer = '박준', painter='김한나', publisher='난다요', position = '4', table_name='items')
-    # print('SELECT 우리는안녕')
-    # print(select_one(conn, '여름이온다', table_name='items'))
+    print('SELECT 우리는안녕')
+    print(select_one(conn, '여름이온다', table_name='items'))
     print('SELECT ALL')
     print(select_all(conn, table_name='items'))
 
