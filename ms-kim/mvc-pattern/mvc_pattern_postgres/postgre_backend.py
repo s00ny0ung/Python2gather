@@ -16,11 +16,11 @@ def connect_to_db(db=None):
     connection = psycopg2.connect("host=localhost dbname=postgres user=postgres password=1234 port=5432")
     return connection
 
-def disconnect_from_db(db=None):
-    if db is not DB_name:
-        print('You are trying to disconnect from a wrong DB')
+def disconnect_from_db(conn, db=None):
+    # if db is not DB_name:
+    #     print('You are trying to disconnect from a wrong DB')
     if conn is not None:
-       conn.close()
+        conn.close()
 
 def connect(func):
     def inner_func(conn, *args, **kwargs):

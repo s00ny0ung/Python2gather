@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import basic_backend
+import mvc_pattern_101.basic_backend as basic_backend
 import mvc_exceptions as mvc_exc
 
 class Model(object):
