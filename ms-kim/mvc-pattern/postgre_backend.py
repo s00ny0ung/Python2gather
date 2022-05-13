@@ -119,14 +119,14 @@ def select_all(conn, table_name):
 def update_one(conn, title, writer, painter, publisher, position, table_name):
     cur =  conn.cursor()
     table_name = scrub(table_name)
-    sql_check = 'SELECT EXISTS(SELECT 1 FROM {} WHERE title=? LIMIT 1)'\
+    sql_check = "SELECT EXISTS(SELECT 1 FROM {} WHERE title='{}' LIMIT 1)"\
+        .format(table_name, title)
+    sql_update = 'UPDATE {} SET writer=%s, painter=%s, publisher=%s, position=%s WHERE title=%s'\
         .format(table_name)
-    sql_update = 'UPDATE {} SET writer=%s, painter=%s, publisher=%s, positon=%s WHERE title=%s'\
-        .format(table_name)
-    c = cur.execute(sql_check, (title,))
-    result = c.fetchone()
+    cur.execute(sql_check, (title,))
+    result = cur.fetchone()
     if result[0]:
-        c.execute(sql_update, (writer, painter, publisher, position, title))
+        cur.execute(sql_update, (writer, painter, publisher, position, title))
         conn.commit()
     else:
         raise mvc_exc.ItemAlreadyStored(
@@ -141,11 +141,11 @@ def delete_one(conn, title, table_name):
     sql_check = 'SELECT EXISTS(SELECT 1 FROM {} WHERE title=%s LIMIT 1)'\
         .format(table_name)
     table_name = scrub(table_name)
-    sql_delete = 'DELETE {} WHERE title=%s'.format(table_name)
-    c = cur.execute(sql_check, (title,))
-    result = c.fetchone()
+    sql_delete = 'DELETE FROM {} WHERE title=%s'.format(table_name)
+    cur.execute(sql_check, (title,))
+    result = cur.fetchone()
     if result[0]:
-        c.execute(sql_delete, (title,))
+        cur.execute(sql_delete, (title,))
         conn.commit()
     else:
         raise mvc_exc.ItemAlreadyStored(
@@ -160,17 +160,21 @@ def main():
 
     # create_table(conn, table_name)
     myitems = [
-        {'title':'여름이온다', 'writer':'이수지', 'painter':'이수지', 'publisher':'비룡소', 'position':'2'},
-        {'title':'코끼리비밀요원', 'writer':'오원 맥클로플린', 'painter':'로스 콜린스', 'publisher':'다림', 'position':'3'},
-        {'title':'그들은결국브레멘에가지못했다', 'writer':'루리', 'painter':'루리', 'publisher':'비룡소', 'position':'4'}
+        {'title':'여름이온다4', 'writer':'이수지', 'painter':'이수지', 'publisher':'비룡소', 'position':'2'},
+        {'title':'코끼리비밀요원4', 'writer':'오원 맥클로플린', 'painter':'로스 콜린스', 'publisher':'다림', 'position':'3'},
+        {'title':'그들은결국브레멘에가지못했다4', 'writer':'루리', 'painter':'루리', 'publisher':'비룡소', 'position':'4'}
     ]
 
-    # insert_many(conn, myitems, table_name='items')
-    # insert_one(conn, '우리는안녕',  writer = '박준', painter='김한나', publisher='난다요', position = '4', table_name='items')
-    print('SELECT 우리는안녕')
-    print(select_one(conn, '여름이온다', table_name='items'))
+    insert_many(conn, myitems, table_name='items')
+    insert_one(conn, '우리는안녕5',  writer = '박준', painter='김한나', publisher='난다요', position = '4', table_name='items')
+    print('SELECT 우리는안녕2')
+    print(select_one(conn, '여름이온다1', table_name='items'))
     print('SELECT ALL')
     print(select_all(conn, table_name='items'))
+    print('update!')
+    print(update_one(conn, '우리는안녕',  writer = '박준', painter='김한나', publisher='난다요', position = '1', table_name='items'))
+    print('delete!')
+    print(delete_one(conn, '여름이온다1',table_name='items'))
 
     conn.close()
 
