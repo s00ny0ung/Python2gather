@@ -1,7 +1,7 @@
-import basic_backend
+# import basic_backend
 import mvc_exceptions as mvc_exc
-import sqlite_backend
-
+# import sqlite_backend
+import postgres_backend
 
 class ModelBasic(object):
 
@@ -18,22 +18,22 @@ class ModelBasic(object):
         self._item_type = new_item_type
 
     def create_item(self, name, price, quantity):
-        basic_backend.create_item(name, price, quantity)
+        postgres_backend.create_item(name, price, quantity)
 
     def create_items(self, items):
-        basic_backend.create_items(items)
+        postgres_backend.create_items(items)
 
     def read_item(self, name):
-        return basic_backend.read_item(name)
+        return postgres_backend.read_item(name)
 
     def read_items(self):
-        return basic_backend.read_items()
+        return postgres_backend.read_items()
 
     def update_item(self, name, price, quantity):
-        basic_backend.update_item(name, price, quantity)
+        postgres_backend.update_item(name, price, quantity)
 
     def delete_item(self, name):
-        basic_backend.delete_item(name)
+        postgres_backend.delete_item(name)
 
 
 class View(object):
@@ -173,10 +173,16 @@ class Controller(object):
 
 class ModelSQLite(object):
 
+    # def __init__(self, application_items):
+    #     self._item_type = 'product'
+    #     self._connection = sqlite_backend.connect_to_db(sqlite_backend.DB_name)
+    #     sqlite_backend.create_table(self.connection, self._item_type)
+    #     self.create_items(application_items)
+
     def __init__(self, application_items):
         self._item_type = 'product'
-        self._connection = sqlite_backend.connect_to_db(sqlite_backend.DB_name)
-        sqlite_backend.create_table(self.connection, self._item_type)
+        self._connection = postgres_backend.connect_to_db(postgres_backend.DB_name)
+        postgres_backend.create_table(self.connection, self._item_type)
         self.create_items(application_items)
 
     @property
@@ -192,27 +198,27 @@ class ModelSQLite(object):
         self._item_type = new_item_type
 
     def create_item(self, name, price, quantity):
-        sqlite_backend.insert_one(
+        postgres_backend.insert_one(
             self.connection, name, price, quantity, table_name=self.item_type)
 
     def create_items(self, items):
-        sqlite_backend.insert_many(
+        postgres_backend.insert_many(
             self.connection, items, table_name=self.item_type)
 
     def read_item(self, name):
-        return sqlite_backend.select_one(
+        return postgres_backend.select_one(
             self.connection, name, table_name=self.item_type)
 
     def read_items(self):
-        return sqlite_backend.select_all(
+        return postgres_backend.select_all(
             self.connection, table_name=self.item_type)
 
     def update_item(self, name, price, quantity):
-        sqlite_backend.update_one(
+        postgres_backend.update_one(
             self.connection, name, price, quantity, table_name=self.item_type)
 
     def delete_item(self, name):
-        sqlite_backend.delete_one(
+        postgres_backend.delete_one(
             self.connection, name, table_name=self.item_type)
 
 if __name__ == "__main__":
@@ -261,8 +267,8 @@ if __name__ == "__main__":
     c.show_items()
 
     # we close the current sqlite database connection explicitly
-    if type(c.model) is ModelSQLite:
-        sqlite_backend.disconnect_from_db(
-            sqlite_backend.DB_name, c.model.connection)
-        # the sqlite backend understands that it needs to open a new connection
-        c.show_items()
+    # if type(c.model) is ModelSQLite:
+    #     postgres_backend.disconnect_from_db(
+    #         postgres_backend.DB_name, c.model.connection)
+    #     # the sqlite backend understands that it needs to open a new connection
+    #     c.show_items()

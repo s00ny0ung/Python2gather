@@ -427,7 +427,9 @@ if __name__ == "__main__":
     c.show_items()
 ```
 
-- 실행 결과
+- 실행 방법
+  - basic_backend.py 실행
+- 실행 결과 
 
 ```cmd
 --- PRODUCT LIST ---
@@ -481,6 +483,20 @@ We have just removed bread from our list
 
 
 ## Part2. PostgreSQL
+- docker postgres 설치
+  - `docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=postgres -d postgres`
+- vscode sqltools extention 설치
+- vscode sqltools postgres 설치 및 docker postgres 연결 성공
+- `pip install psycopg2-binary` 설치
+  - python 버전에 맞춰 설치하는 과정에 에러가 발생하여 시간이 걸림
+  - 현재 3.5와 3.10이 설치되어있는데 3.5버전에서 psycopg2를 설치해도 import 되지 않는 현상 발생
+  - `sys.stderr.write(f"ERROR: {exc}")` 에러 
+  - python 3.5 기준으로 pip가 update
+  - python 3.5 디렉토리 위치에서  
+    - `curl -O https://bootstrap.pypa.io/pip/3.5` 수행
+    - `python get-pip.py`수행
+    - `python -m pip install psycopg2`수행
+
 
 ## Part3. Dataset
 
