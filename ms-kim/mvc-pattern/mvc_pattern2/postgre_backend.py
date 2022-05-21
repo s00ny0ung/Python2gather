@@ -13,7 +13,9 @@ def connect_to_db(db=None):
     # else:
     #     mydb = '{}.db'.format(db)
     #     print('New connection to SQLite DB...')
-    connection = psycopg2.connect("host=localhost dbname=postgres user=postgres password=1234 port=5432")
+    connection = psycopg2.connect(
+        "host=localhost dbname=postgres user=postgres password=1234 port=5432"
+    )
     return connection
 
 def disconnect_from_db(conn, db=None):
